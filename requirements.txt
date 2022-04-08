@@ -1,5 +1,6 @@
-pandas==1.1.5
+pandas
 streamlit
-numpy==1.19.5
+numpy
 matplotlib
 matplotlib.pyplot
+seaborn
