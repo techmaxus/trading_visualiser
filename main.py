@@ -85,7 +85,7 @@ text-align: center;
 }
 </style>
 <div class="footer">
-<p>Developed by <a style='display: block;' href="https://github.com/techmaxus" target="_blank">Lakshay Kapoor</a></p>
+<p>Developed by <a href="https://github.com/techmaxus" target="_blank">Lakshay Kapoor</a></p>
 </div>
 """
 st.markdown(footer,unsafe_allow_html=True)
