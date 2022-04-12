@@ -40,8 +40,15 @@ from sklearn.metrics import roc_curve
 logit_roc_auc = roc_auc_score(ytest, classifier.predict_proba(xtest)[:,1])
 fpr, tpr, thresholds = roc_curve(ytest, classifier.predict_proba(xtest)[:,1])
 # plt.figure()
-ax.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
+TN = cm[0][0]
+FN = cm[1][0]
+TP = cm[1][1]
+FP = cm[0][1]
 
+tp = TP/(TP+FN)
+fp = FP/(FP+TN)
+ax.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
+plt.plot(fp, tp, marker="o", markersize=8, markeredgecolor="black", markerfacecolor="red")
 ax.plot([0, 1], [0, 1],'r--')
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
