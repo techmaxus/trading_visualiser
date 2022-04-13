@@ -1,9 +1,10 @@
+from email import header
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 dataset = pd.read_csv('./data.csv')
 
@@ -22,7 +23,8 @@ xtest = sc_x.transform(xtest)
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(xtrain, ytrain)
-st.title("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
+st.subheader("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
+
 threshold = st.slider('Threshold', 0.0, 1.0,0.5)
 
 y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
@@ -80,6 +82,7 @@ color: red;
 background-color: transparent;
 text-decoration: underline;
 }
+
 
 .footer {
 position: fixed;
