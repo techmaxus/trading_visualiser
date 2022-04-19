@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-# st.set_page_config(layout="wide")
+st.set_page_config(layout="centered")
 
 dataset = pd.read_csv('./data.csv')
-
+dataset.Gender= [1 if each=="Male" else 0 for each in dataset.Gender]
 x = dataset.iloc[:, [2, 3]].values
 y = dataset.iloc[:, 4].values
 
@@ -24,16 +24,57 @@ from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(xtrain, ytrain)
 st.subheader("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
-
+from sklearn.metrics import confusion_matrix
 threshold = st.slider('Threshold', 0.0, 1.0,0.5)
-
+y_t = (classifier.predict_proba(xtest)[:,1] >= 0.5).astype(bool)
+ct = confusion_matrix(ytest, y_t)
 y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
 
-from sklearn.metrics import confusion_matrix
+
 fig, ax = plt.subplots()
 cm = confusion_matrix(ytest, y_pred)
-cm_matrix = pd.DataFrame(data=cm, columns=['Actual Positive:1', 'Actual Negative:0'],index=['Predict Positive:1', 'Predict Negative:0'])
-sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
+c =np.array([["0000","0000"],["0000","0000"]])
+if(cm[0][0]>ct[0][0]):
+        c[0][0]=str(cm[0][0])+"↑"
+if(cm[0][1]>ct[0][1]):
+        c[0][1]=str(cm[0][1])+"↑"
+if(cm[1][0]>ct[1][0]):
+        c[1][0]=str(cm[1][0])+"↑"
+if(cm[1][1]>ct[1][1]):
+        c[1][1]=str(cm[1][1])+"↑"
+
+if(cm[0][0]<ct[0][0]):
+        c[0][0]=str(cm[0][0])+"↓"
+if(cm[0][1]<ct[0][1]):
+        c[0][1]=str(cm[0][1])+"↓"
+if(cm[1][0]<ct[1][0]):
+        c[1][0]=str(cm[1][0])+"↓"
+if(cm[1][1]<ct[1][1]):
+        c[1][1]=str(cm[1][1])+"↓"
+
+if(cm[0][0]==ct[0][0]):
+        c[0][0]=str(cm[0][0])
+if(cm[0][1]==ct[0][1]):
+        c[0][1]=str(cm[0][1])
+if(cm[1][0]==ct[1][0]):
+        c[1][0]=str(cm[1][0])
+if(cm[1][1]==ct[1][1]):
+        c[1][1]=str(cm[1][1])
+
+ax.matshow(cm, cmap=plt.cm.Blues, alpha=0.3)
+
+ax.text(x=0, y=0,s=c[0, 0], va='center', ha='center', size='xx-large')
+ax.text(x=1, y=0,s=c[1, 0], va='center', ha='center', size='xx-large')
+ax.text(x=0, y=1,s=c[0,1], va='center', ha='center', size='xx-large')
+ax.text(x=1, y=1,s=c[1, 1], va='center', ha='center', size='xx-large')
+ 
+plt.xlabel('ACTUAL', fontsize=18)
+plt.ylabel('PREDICTED', fontsize=18)
+plt.yticks([0, 1], ['1', '0'])
+plt.xticks([0, 1], ['1', '0'])
+
+
+
 
 
 fig2, ax = plt.subplots()
@@ -61,7 +102,7 @@ plt.legend(loc="lower right")
 
 
 
-col1, col2 = st.columns(2)
+col1, col2, = st.columns(2)
 
 
 col1.header("Confusion Matrix")
@@ -69,6 +110,9 @@ col1.write(fig)
 
 col2.header("ROC-AUC")
 col2.write(fig2)
+
+
+
 
 footer="""<style>
 a:link , a:visited{
