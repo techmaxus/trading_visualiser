@@ -31,12 +31,12 @@ fig, ax = plt.subplots()
 cm = confusion_matrix(ytest, y_pred)
 cm_matrix = pd.DataFrame(data=cm, columns=['Predicted Negative', 'Predicted Positive'],index=['Actual Negative', 'Actual Positive'])
 if threshold<0.5 :
-        ax.arrow( 0.70, 0.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
+        plt.arrow( 0.70, 0.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
         ax.arrow( 0.70, 1.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
 elif threshold>0.5 :
         ax.arrow( 1.3, 0.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
         ax.arrow( 1.3, 1.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-#sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
+sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
 
 
 fig2, ax = plt.subplots()
