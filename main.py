@@ -25,7 +25,7 @@ st.title("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
 st.subheader("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
 
 threshold = st.slider('Threshold', 0.0, 1.0,0.5)
-import pylab as p
+from matplotlib import pylab as p
 y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
 from sklearn.metrics import confusion_matrix
 fig, ax = plt.subplots()
