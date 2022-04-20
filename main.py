@@ -21,7 +21,6 @@ xtest = sc_x.transform(xtest)
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(xtrain, ytrain)
-st.title("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
 st.subheader("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
 
 threshold = st.slider('Threshold', 0.0, 1.0,0.5)
