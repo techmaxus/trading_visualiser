@@ -36,7 +36,7 @@ if threshold<0.5 :
 elif threshold>0.5 :
         ax.arrow( 1.3, 0.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
         ax.arrow( 1.3, 1.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
+#sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
 
 
 fig2, ax = plt.subplots()
