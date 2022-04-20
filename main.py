@@ -4,77 +4,40 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-st.set_page_config(layout="centered")
+st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 dataset = pd.read_csv('./data.csv')
-dataset.Gender= [1 if each=="Male" else 0 for each in dataset.Gender]
+
 x = dataset.iloc[:, [2, 3]].values
 y = dataset.iloc[:, 4].values
-
 from sklearn.model_selection import train_test_split
 xtrain, xtest, ytrain, ytest = train_test_split(
         x, y, test_size = 0.25, random_state = 0)
-
 from sklearn.preprocessing import StandardScaler
 sc_x = StandardScaler()
 xtrain = sc_x.fit_transform(xtrain)
 xtest = sc_x.transform(xtest)
-
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(xtrain, ytrain)
+st.title("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
 st.subheader("VISUALISATION OF EFFECT OF CHANGING THRESHOLD IN LOGISTIC REGRESSION")
-from sklearn.metrics import confusion_matrix
+
 threshold = st.slider('Threshold', 0.0, 1.0,0.5)
-y_t = (classifier.predict_proba(xtest)[:,1] >= 0.5).astype(bool)
-ct = confusion_matrix(ytest, y_t)
+import pylab as p
 y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
-
-
+from sklearn.metrics import confusion_matrix
 fig, ax = plt.subplots()
 cm = confusion_matrix(ytest, y_pred)
-c =np.array([["0000","0000"],["0000","0000"]])
-if(cm[0][0]>ct[0][0]):
-        c[0][0]=str(cm[0][0])+"↑"
-if(cm[0][1]>ct[0][1]):
-        c[0][1]=str(cm[0][1])+"↑"
-if(cm[1][0]>ct[1][0]):
-        c[1][0]=str(cm[1][0])+"↑"
-if(cm[1][1]>ct[1][1]):
-        c[1][1]=str(cm[1][1])+"↑"
-
-if(cm[0][0]<ct[0][0]):
-        c[0][0]=str(cm[0][0])+"↓"
-if(cm[0][1]<ct[0][1]):
-        c[0][1]=str(cm[0][1])+"↓"
-if(cm[1][0]<ct[1][0]):
-        c[1][0]=str(cm[1][0])+"↓"
-if(cm[1][1]<ct[1][1]):
-        c[1][1]=str(cm[1][1])+"↓"
-
-if(cm[0][0]==ct[0][0]):
-        c[0][0]=str(cm[0][0])
-if(cm[0][1]==ct[0][1]):
-        c[0][1]=str(cm[0][1])
-if(cm[1][0]==ct[1][0]):
-        c[1][0]=str(cm[1][0])
-if(cm[1][1]==ct[1][1]):
-        c[1][1]=str(cm[1][1])
-
-ax.matshow(cm, cmap=plt.cm.Blues, alpha=0.3)
-
-ax.text(x=0, y=0,s=c[0, 0], va='center', ha='center', size='xx-large')
-ax.text(x=1, y=0,s=c[1, 0], va='center', ha='center', size='xx-large')
-ax.text(x=0, y=1,s=c[0,1], va='center', ha='center', size='xx-large')
-ax.text(x=1, y=1,s=c[1, 1], va='center', ha='center', size='xx-large')
- 
-plt.xlabel('ACTUAL', fontsize=18)
-plt.ylabel('PREDICTED', fontsize=18)
-plt.yticks([0, 1], ['1', '0'])
-plt.xticks([0, 1], ['1', '0'])
-
-
-
+cm_matrix = pd.DataFrame(data=cm, columns=['Predicted Negative', 'Predicted Positive'],index=['Actual Negative', 'Actual Positive'])
+if threshold<0.5 :
+        p.arrow( 0.70, 0.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
+        p.arrow( 0.70, 1.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
+elif threshold>0.5 :
+        p.arrow( 1.3, 0.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
+        p.arrow( 1.3, 1.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
+sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
 
 
 fig2, ax = plt.subplots()
@@ -87,7 +50,6 @@ TN = cm[0][0]
 FN = cm[1][0]
 TP = cm[1][1]
 FP = cm[0][1]
-
 tp = TP/(TP+FN)
 fp = FP/(FP+TN)
 ax.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
@@ -99,35 +61,22 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic')
 plt.legend(loc="lower right")
-
-
-
-col1, col2, = st.columns(2)
-
-
+col1, col2 = st.columns(2)
 col1.header("Confusion Matrix")
 col1.write(fig)
-
 col2.header("ROC-AUC")
 col2.write(fig2)
-
-
-
-
 footer="""<style>
 a:link , a:visited{
 color: blue;
 background-color: transparent;
 text-decoration: underline;
 }
-
 a:hover,  a:active {
 color: red;
 background-color: transparent;
 text-decoration: underline;
 }
-
-
 .footer {
 position: fixed;
 left: 0;
