@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 st.set_page_config(layout="wide")
-st.set_page_config(layout="wide")
+
 
 dataset = pd.read_csv('./data.csv')
 
