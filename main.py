@@ -37,7 +37,10 @@ if threshold<0.5 :
 elif threshold>0.5 :
         ax.arrow( 1.3, 0.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
         ax.arrow( 1.3, 1.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-
+plt.text(0.425, 0.3,"TN", fontsize=18,color='red')
+plt.text(1.425, 0.3,"FP", fontsize=18,color='red')
+plt.text(0.425, 1.3,"FN", fontsize=18,color='red')
+plt.text(1.425, 1.3,"TP", fontsize=18,color='red')
 
 fig2, ax = plt.subplots()
 from sklearn.metrics import roc_auc_score
@@ -65,6 +68,9 @@ col1.header("Confusion Matrix")
 col1.write(fig)
 col2.header("ROC-AUC")
 col2.write(fig2)
+
+col1.header("TPR= TP/(TP+FN)")
+col1.header("FPR= FP/(FP+TN)")
 footer="""<style>
 a:link , a:visited{
 color: blue;
