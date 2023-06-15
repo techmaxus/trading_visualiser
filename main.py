@@ -94,9 +94,6 @@ def backtest(df,stock,startdate,enddate,initial_wealth) :
         LT_wealth = initial_wealth # long-term wealth
         inital_sell = 0 
         df['position'].iloc[-1] = -1
-                
-    
-
         print('Stock: {}'.format(stock))
         print('Period: {} - {}'.format(startdate, enddate))
         print('Initial Wealth: {}'.format(initial_wealth))
@@ -200,6 +197,8 @@ def graph(df,stock):
     ax.set_xlabel('date')
     ax.set_title(stock)
     st.pyplot(fig)
+    col1, col2 = st.columns(2)
+    col1.write(fig)
 
 # Initialise the data 
 long_MA = 200
