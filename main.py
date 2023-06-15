@@ -4,48 +4,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-# dataset = pd.read_csv('./data.csv')
-
-
-# x = dataset.iloc[:, [2, 3]].values
-# y = dataset.iloc[:, 4].values
-# from sklearn.model_selection import train_test_split
-# xtrain, xtest, ytrain, ytest = train_test_split(
-#         x, y, test_size = 0.25, random_state = 0)
-# from sklearn.preprocessing import StandardScaler
-# sc_x = StandardScaler()
-# xtrain = sc_x.fit_transform(xtrain)
-# xtest = sc_x.transform(xtest)
-# from sklearn.linear_model import LogisticRegression
-# classifier = LogisticRegression(random_state = 0)
-# classifier.fit(xtrain, ytrain)
-st.subheader("VISUALISATION OF SIMPLE MOVING AVERAGE TRADING STRATEGY FOR DIFFERENT PERIOD ON RELIANCE")
-
-
-
-
-import pandas as pd 
-import matplotlib.pyplot as plt 
-import numpy as np
 import yfinance as yf
-import matplotlib.pyplot as plt
 import math
+import datetime
 
+st.subheader("VISUALISATION OF SIMPLE MOVING AVERAGE TRADING STRATEGY FOR DIFFERENT PERIOD ON RELIANCE")
 pd.set_option('mode.chained_assignment', None)
-
-
-# Initialise the data 
-long_MA = 200
-short_MA = 17
-initial_wealth = '1000'
-stock = 'RELIANCE.NS'
-period = '60d'
-start_date =  '2015-01-01'
-end_date = '2020-12-31'
-interval = '1d'
-totalprofit = 0
-
 
 def get_stock_data(stock,startdate,enddate,period,interval):
         ticker = stock  
@@ -226,7 +190,7 @@ def graph(df,stock):
     ax.legend(loc = 'upper right')
     ax.set_xlabel('Date')
     ax.set_title(stock)
-    plt.show()
+    st.pyplot(fig)
 
     fig = plt.figure(figsize = [15,6])
     ax = plt.subplot(1,1,1)
@@ -235,9 +199,27 @@ def graph(df,stock):
     ax.legend(loc = 'upper left')
     ax.set_xlabel('date')
     ax.set_title(stock)
-    plt.show()
+    st.pyplot(fig)
+
+# Initialise the data 
+long_MA = 200
+short_MA = 17
+initial_wealth = '1000'
+stock = st.selectbox(
+    'STOCK NAME',
+    ('RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS','ASIANPAINTS.NS','LT.NS','TITAN.NS'))
+period = '60d'
 
 
+start_date = st.date_input(
+    "Start Date",
+    datetime.date(2010, 1, 1))
+end_date = st.date_input(
+    "End Date",
+    datetime.date(2019,12,31))
+
+interval = '1d'
+totalprofit = 0
 
 print(stock)
 
@@ -248,55 +230,6 @@ df = backtest(df,stock,start_date,end_date, initial_wealth)
 graph(df,stock)
 
 
-
-# threshold = st.slider('Threshold', 0.0, 1.0,0.5)
-# y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
-# from sklearn.metrics import confusion_matrix
-# fig, ax = plt.subplots()
-# cm = confusion_matrix(ytest, y_pred)
-# cm_matrix = pd.DataFrame(data=cm, columns=['Predicted Negative', 'Predicted Positive'],index=['Actual Negative', 'Actual Positive'])
-
-# sns.heatmap(cm_matrix, annot=True, fmt='d', cmap='YlGnBu',ax=ax)
-# if threshold<0.5 :
-#         plt.arrow( 0.70, 0.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-#         ax.arrow( 0.70, 1.5, 0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-# elif threshold>0.5 :
-#         ax.arrow( 1.3, 0.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-#         ax.arrow( 1.3, 1.5, -0.5, 0.0,fc="r", ec="r",head_width=0.05, head_length=0.1 )
-# plt.text(0.425, 0.3,"TN", fontsize=18,color='red')
-# plt.text(1.425, 0.3,"FP", fontsize=18,color='red')
-# plt.text(0.425, 1.3,"FN", fontsize=18,color='red')
-# plt.text(1.425, 1.3,"TP", fontsize=18,color='red')
-
-# fig2, ax = plt.subplots()
-# from sklearn.metrics import roc_auc_score
-# from sklearn.metrics import roc_curve
-# logit_roc_auc = roc_auc_score(ytest, classifier.predict_proba(xtest)[:,1])
-# fpr, tpr, thresholds = roc_curve(ytest, classifier.predict_proba(xtest)[:,1])
-# # plt.figure()
-# TN = cm[0][0]
-# FN = cm[1][0]
-# TP = cm[1][1]
-# FP = cm[0][1]
-# tp = TP/(TP+FN)
-# fp = FP/(FP+TN)
-# ax.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
-# plt.plot(fp, tp, marker="o", markersize=8, markeredgecolor="black", markerfacecolor="red")
-# ax.plot([0, 1], [0, 1],'r--')
-# plt.xlim([0.0, 1.0])
-# plt.ylim([0.0, 1.05])
-# plt.xlabel('False Positive Rate')
-# plt.ylabel('True Positive Rate')
-# plt.title('Receiver operating characteristic')
-# plt.legend(loc="lower right")
-# col1, col2 = st.columns(2)
-# col1.header("Confusion Matrix")
-# col1.write(fig)
-# col2.header("ROC-AUC")
-# col2.write(fig2)
-
-# col1.header("TPR= TP/(TP+FN)")
-# col1.header("FPR= FP/(FP+TN)")
 footer="""<style>
 a:link , a:visited{
 color: blue;
