@@ -20,7 +20,7 @@ import seaborn as sns
 # from sklearn.linear_model import LogisticRegression
 # classifier = LogisticRegression(random_state = 0)
 # classifier.fit(xtrain, ytrain)
-# st.subheader("VISUALISATION OF SIMPLE MOVING AVERAGE TRADING STRATEGY FOR DIFFERENT PERIOD ON NIFTY-50")
+st.subheader("VISUALISATION OF SIMPLE MOVING AVERAGE TRADING STRATEGY FOR DIFFERENT PERIOD ON NIFTY-50")
 
 # threshold = st.slider('Threshold', 0.0, 1.0,0.5)
 # y_pred = (classifier.predict_proba(xtest)[:,1] >= threshold).astype(bool)
