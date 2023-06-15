@@ -42,11 +42,11 @@ def ma_strategy(df,short_MA,long_MA):
 def buy_sell_signals(df,stock,start_date,end_date):
     
         totalprofit = 0
-        st.text('Stock: {}'.format(stock))
-        st.text('Period: {} - {}'.format(start_date, end_date))
-        st.text('-'*67)
-        st.text('{:^7}{:^10}{:^15}{:^10}{:^15}'.format('S/N','Buy Date','Buy Price($)','Sell Date','Sell Price($)'))
-        st.text('-'*67)
+        # st.text('Stock: {}'.format(stock))
+        # st.text('Period: {} - {}'.format(start_date, end_date))
+        # st.text('-'*67)
+        # st.text('{:^7}{:^10}{:^15}{:^10}{:^15}'.format('S/N','Buy Date','Buy Price($)','Sell Date','Sell Price($)'))
+        # st.text('-'*67)
 
         for i, row in df.iterrows():
                         if df.loc[i,'position'] == 1 :
@@ -59,7 +59,7 @@ def buy_sell_signals(df,stock,start_date,end_date):
                                 profit = round(profit,2)
                                 totalprofit = totalprofit + profit
                                 totalprofit = round(totalprofit,2)
-                                st.write(totalprofit)
+                                # st.write(totalprofit)
 
         return df
 
